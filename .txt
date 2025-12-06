@@ -1,2 +1,2 @@
-npx prisma migrate dev --name user-imgurl
+npx prisma migrate dev --name sondproductmodel
 npx prisma generate

@@ -14,9 +14,8 @@ export type TVerification = {
   code: number;
 };
 
-export type TCaughtError = {
-  status?: number;
-  message?: string;
+export type TJwtDecoded = {
+  id: string;
 };
 
 export type TUser = {

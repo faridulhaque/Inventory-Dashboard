@@ -37,6 +37,7 @@ model User {
   password   String
   code       Int
   isVerified Boolean @default(false)
+  imageUrl   String
 
   products Product[]
 

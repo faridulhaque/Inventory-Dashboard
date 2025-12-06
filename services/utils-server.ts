@@ -1,4 +1,6 @@
-import { TUser } from "./types";
+import jwt from "jsonwebtoken";
+import { prisma } from "./prisma";
+import { TJwtDecoded, TUser } from "./types";
 
 export const sendMail = async (user: TUser) => {
   const publicKey = process.env.MAILJET_PUBLIC_KEY;
@@ -29,4 +31,26 @@ export const sendMail = async (user: TUser) => {
 
   if (response.ok) return true;
   else return false;
+};
+
+export const verifyJwt = async (request: Request) => {
+  const auth = request.headers.get("authorization");
+  if (!auth) throw new Error("Token is required");
+
+  const token = auth.replace("Bearer ", "").trim();
+
+  const decoded = jwt.verify(
+    token,
+    process.env.JWT_SECRET as string
+  ) as TJwtDecoded;
+
+  if (!decoded?.id) throw new Error("Invalid token");
+
+  const user = await prisma.user.findFirst({
+    where: { id: decoded.id },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  return user;
 };

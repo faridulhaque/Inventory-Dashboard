@@ -31,10 +31,12 @@ model Product {
 }
 
 model User {
-  id    String @id @default(cuid())
-  name  String
-  email String @unique
-  isVerified Boolean
+  id         String  @id @default(cuid())
+  name       String
+  email      String  @unique
+  password   String
+  code       Int
+  isVerified Boolean @default(false)
 
   products Product[]
 

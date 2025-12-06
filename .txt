@@ -1,2 +1,2 @@
-npx prisma migrate dev --name user-isveriried
+npx prisma migrate dev --name user-code
 npx prisma generate

@@ -2,6 +2,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-   <div></div>
+   <div>
+    <button className="btn btn-info">Hello world</button>
+   </div>
   );
 }

@@ -39,3 +39,9 @@ export enum HttpStatus {
   conflict = 409,
   internalError = 500,
 }
+
+export type NavItem = {
+  title: string;
+  icon: any;
+  href: string;
+};

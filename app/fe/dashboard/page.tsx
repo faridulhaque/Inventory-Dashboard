@@ -1,9 +1,15 @@
-import React from 'react'
+import DashboardPage from "@/components/dashboard/DashboardPage";
+import Sidebar from "@/components/others/Sidebar";
+import React from "react";
 
 function page() {
   return (
-    <div>page</div>
-  )
+    <div>
+      <Sidebar title="Dashboard">
+        <DashboardPage></DashboardPage>
+      </Sidebar>
+    </div>
+  );
 }
 
-export default page
+export default page;

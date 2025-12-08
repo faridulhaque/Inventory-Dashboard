@@ -1,7 +1,7 @@
 import { prisma } from "@/services/prisma";
 import { HttpStatus, TLoginBody } from "@/services/types";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {

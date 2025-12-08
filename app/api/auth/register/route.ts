@@ -1,7 +1,8 @@
 import { prisma } from "@/services/prisma";
 import { HttpStatus, TRegisterBody } from "@/services/types";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
+
 import { sendMail } from "@/services/utils-server";
 
 const saltRounds = 10;
@@ -9,10 +10,16 @@ const saltRounds = 10;
 export async function POST(req: Request) {
   const body: TRegisterBody = await req.json();
 
+  // console.log("body", body);
+
   try {
     const user = await prisma.user.findFirst({
       where: { email: body.email },
     });
+
+    // console.log("user", user);
+
+    // console.log("env", process.env.JWT_SECRET)
 
     if (user?.isVerified) {
       return NextResponse.json({
@@ -39,7 +46,9 @@ export async function POST(req: Request) {
           },
         });
 
-    const ok = await sendMail(saved);
+    // const ok = await sendMail(saved);
+    const ok = true;
+    // console.log("ok", ok);
 
     return NextResponse.json({
       status: ok ? HttpStatus.ok : HttpStatus.notFound,

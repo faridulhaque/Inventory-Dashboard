@@ -45,3 +45,7 @@ export type NavItem = {
   icon: any;
   href: string;
 };
+
+export enum APIEnums {
+  register = "/api/auth/register",
+}

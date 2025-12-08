@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import SignUpForm from "./SignUpForm";
 
-function authPage() {
+function AuthPage() {
   return (
-    <div>authPage</div>
-  )
+    <div>
+      <SignUpForm></SignUpForm>
+    </div>
+  );
 }
 
-export default authPage
+export default AuthPage;

@@ -17,7 +17,9 @@ export default async function Page({
   const token = cookieStore.get("token")?.value;
 
   const res = await fetch(`${process.env.BASE_URL}/product?page=${page}`, {
-    cache: "no-store",
+    next: {
+      tags: ["products"],
+    },
     headers: {
       Authorization: `Bearer ${token}`,
     },

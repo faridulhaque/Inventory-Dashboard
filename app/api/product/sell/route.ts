@@ -1,9 +1,12 @@
 import { prisma } from "@/services/prisma";
 import { HttpStatus, TSold } from "@/services/types";
 import { verifyJwt } from "@/services/utils-server";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function PUT(request: Request) {
+  revalidateTag("products", "max");
+
   const user = await verifyJwt(request);
   const body = await request.json();
   const { id: productId, quantity, soldQuantity } = body as TSold;

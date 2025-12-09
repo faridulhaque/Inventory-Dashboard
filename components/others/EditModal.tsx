@@ -9,6 +9,7 @@ import {
   TProduct,
   TSold,
 } from "@/services/types";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -16,9 +17,15 @@ function EditModal({ product }: { product: TProduct }) {
   const [sold, setSold] = useState(true);
   const [soldQuantity, setSoldQuantity] = useState("");
   const [boughtQuantity, setBoughQuantity] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
     if (sold) {
+      if (Number(soldQuantity) > product.quantity)
+        return toast.error(
+          "Selling products can't be higher than the quantity"
+        );
+
       const res: ApiResponse<any> = await putData<TSold>(APIEnums.sellProduct, {
         id: product.id,
         quantity: product.quantity,
@@ -46,6 +53,12 @@ function EditModal({ product }: { product: TProduct }) {
         toast.error(res.message);
       }
     }
+    router.refresh();
+    const modal: any = document.getElementById(Modals.editModal);
+
+    if (modal) modal.checked = false;
+    setBoughQuantity("");
+    setSoldQuantity("");
   };
 
   return (
@@ -59,7 +72,11 @@ function EditModal({ product }: { product: TProduct }) {
           {/* name of each tab group should be unique */}
           <div className="tabs tabs-box">
             <input
-              onClick={() => setSold(true)}
+              onClick={() => {
+                setSold(true);
+                setBoughQuantity("");
+                setSoldQuantity("");
+              }}
               type="radio"
               name="my_tabs_1"
               className="tab"
@@ -67,7 +84,11 @@ function EditModal({ product }: { product: TProduct }) {
               defaultChecked
             />
             <input
-              onClick={() => setSold(false)}
+              onClick={() => {
+                setSold(false);
+                setBoughQuantity("");
+                setSoldQuantity("");
+              }}
               type="radio"
               name="my_tabs_1"
               className="tab"
@@ -78,12 +99,13 @@ function EditModal({ product }: { product: TProduct }) {
           <div>
             {sold ? (
               <div>
-                <span> {product?.quantity} + </span>
+                <span> {product?.quantity} - </span>
                 <input
                   onChange={(e) => setSoldQuantity(e.target.value)}
                   type="text"
                   placeholder="Type here"
                   className="input"
+                  value={soldQuantity}
                 />
                 <button onClick={handleSubmit} className="btn btn-success">
                   Sell
@@ -91,12 +113,14 @@ function EditModal({ product }: { product: TProduct }) {
               </div>
             ) : (
               <div>
-                <span> {product?.quantity} - </span>
+                <span> {product?.quantity} + </span>
                 <input
                   onChange={(e) => setBoughQuantity(e.target.value)}
                   type="text"
                   placeholder="Type here"
                   className="input"
+                  value={boughtQuantity}
+
                 />
                 <button onClick={handleSubmit} className="btn btn-error">
                   Buy

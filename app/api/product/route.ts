@@ -117,12 +117,14 @@ export async function GET(request: Request) {
         name: "asc",
       },
     });
+
     return NextResponse.json({
       data: products,
       message: "Products retrieved successfully",
       status: HttpStatus.ok,
     });
   } catch (error: any) {
+    console.log('error', error)
     return NextResponse.json({
       status: error.status || HttpStatus.internalError,
       message: error.message || "Something went wrong",

@@ -1,9 +1,53 @@
 "use client";
-import { Modals, TProduct } from "@/services/types";
+import { putData } from "@/services/apis";
+import {
+  APIEnums,
+  ApiResponse,
+  HttpStatus,
+  Modals,
+  TBought,
+  TProduct,
+  TSold,
+} from "@/services/types";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 function EditModal({ product }: { product: TProduct }) {
   const [sold, setSold] = useState(true);
+  const [soldQuantity, setSoldQuantity] = useState("");
+  const [boughtQuantity, setBoughQuantity] = useState("");
+
+  const handleSubmit = async () => {
+    if (sold) {
+      const res: ApiResponse<any> = await putData<TSold>(APIEnums.sellProduct, {
+        id: product.id,
+        quantity: product.quantity,
+        soldQuantity: Number(soldQuantity),
+      });
+
+      if (res.status === HttpStatus.ok) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } else {
+      const res: ApiResponse<any> = await putData<TBought>(
+        APIEnums.buyProduct,
+        {
+          id: product.id,
+          quantity: product.quantity,
+          boughtQuantity: Number(boughtQuantity),
+        }
+      );
+
+      if (res.status === HttpStatus.ok) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    }
+  };
+
   return (
     <>
       {/* The button to open modal */}
@@ -35,14 +79,28 @@ function EditModal({ product }: { product: TProduct }) {
             {sold ? (
               <div>
                 <span> {product?.quantity} + </span>
-                <input type="text" placeholder="Type here" className="input" />
-                <button className="btn btn-success">Sell</button>
+                <input
+                  onChange={(e) => setSoldQuantity(e.target.value)}
+                  type="text"
+                  placeholder="Type here"
+                  className="input"
+                />
+                <button onClick={handleSubmit} className="btn btn-success">
+                  Sell
+                </button>
               </div>
             ) : (
               <div>
                 <span> {product?.quantity} - </span>
-                <input type="text" placeholder="Type here" className="input" />
-                <button className="btn btn-error">Buy</button>
+                <input
+                  onChange={(e) => setBoughQuantity(e.target.value)}
+                  type="text"
+                  placeholder="Type here"
+                  className="input"
+                />
+                <button onClick={handleSubmit} className="btn btn-error">
+                  Buy
+                </button>
               </div>
             )}
           </div>

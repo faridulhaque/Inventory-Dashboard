@@ -62,6 +62,8 @@ export enum APIEnums {
   verify = "/api/auth/verify",
   login = "/api/auth/login",
   product = "/api/product",
+  sellProduct = "/api/product/sell",
+  buyProduct = "/api/product/buy",
 }
 
 export type ApiResponse<T> = {
@@ -95,5 +97,8 @@ export type TSold = {
 export type TBought = {
   quantity: number;
   boughtQuantity: number;
+  id: string;
+};
+export type THardDelete = {
   id: string;
 };

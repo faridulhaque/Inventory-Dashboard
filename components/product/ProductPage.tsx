@@ -4,12 +4,13 @@ import { TProduct } from "@/services/types";
 
 type tyeProductPage = {
   data: TProduct[];
+  page: number;
 };
 
-function ProductPage({ data }: tyeProductPage) {
+function ProductPage({ data, page }: tyeProductPage) {
   return (
     <div>
-      <ProductTable data={data}></ProductTable>
+      <ProductTable data={data} page={page}></ProductTable>
     </div>
   );
 }

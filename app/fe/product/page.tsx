@@ -1,6 +1,7 @@
 import Loading from "@/components/others/Loading";
 import Sidebar from "@/components/others/Sidebar";
 import ProductPage from "@/components/product/ProductPage";
+import { ApiResponse, TProduct, TRegisterBody } from "@/services/types";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 
@@ -29,13 +30,13 @@ export default async function Page({
       </h2>
     );
 
-  const data = await res.json();
+  const data: ApiResponse<TProduct[]> = await res.json();
 
   return (
     <div>
       <Sidebar title="Product">
         <Suspense fallback={<Loading></Loading>}>
-          <ProductPage data={data}></ProductPage>
+          <ProductPage data={data?.data} page={page}></ProductPage>
         </Suspense>
       </Sidebar>
     </div>

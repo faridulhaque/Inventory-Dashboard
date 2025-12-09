@@ -69,3 +69,31 @@ export type ApiResponse<T> = {
   message: string;
   data: T;
 };
+
+export enum Modals {
+  deleteModal = "delete_modal",
+  editModal = "edit_modal",
+}
+
+export type TPayloadUpdate = {
+  id: string;
+  quantity: number;
+  type: "sell" | "buy";
+};
+
+export type TSoftDelete = {
+  isDeleted: true;
+  id: string;
+};
+
+export type TSold = {
+  quantity: number;
+  soldQuantity: number;
+  id: string;
+};
+
+export type TBought = {
+  quantity: number;
+  boughtQuantity: number;
+  id: string;
+};

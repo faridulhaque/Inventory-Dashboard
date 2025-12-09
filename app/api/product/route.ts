@@ -1,5 +1,10 @@
 import { prisma } from "@/services/prisma";
-import { HttpStatus, TProductRequest } from "@/services/types";
+import {
+  HttpStatus,
+  TPayloadUpdate,
+  TProductRequest,
+  TSoftDelete,
+} from "@/services/types";
 import { verifyJwt } from "@/services/utils-server";
 import { NextResponse } from "next/server";
 
@@ -67,7 +72,7 @@ export async function DELETE(request: Request) {
 export async function PUT(request: Request) {
   const user = await verifyJwt(request);
   const body = await request.json();
-  const { id: productId, ...product } = body;
+  const { id: productId, isDeleted } = body as TSoftDelete;
   try {
     const updated = await prisma.product.update({
       where: {
@@ -76,11 +81,13 @@ export async function PUT(request: Request) {
           id: user.id,
         },
       },
-      data: product,
+      data: {
+        isDeleted: isDeleted,
+      },
     });
     return NextResponse.json({
       data: updated,
-      message: "Product update successful",
+      message: "Product deletion successful",
       status: HttpStatus.ok,
     });
   } catch (error: any) {
@@ -102,6 +109,7 @@ export async function GET(request: Request) {
     const products = await prisma.product.findMany({
       where: {
         user: { id: user.id },
+        isDeleted: false,
       },
       take: count,
       skip: page > 1 ? (page - 1) * count : 0,

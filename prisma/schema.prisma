@@ -10,7 +10,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  
 }
 
 model Product {
@@ -24,6 +23,7 @@ model Product {
   quantity   Int           @default(0)
   lowStockAt Int?
   sold       SoldProduct[]
+  isDeleted  Boolean       @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -21,3 +21,17 @@ export const postData = async <T>(url: APIEnums, body: T) => {
   });
   return res.json();
 };
+
+export const putData = async <T>(url: APIEnums, body: T) => {
+  const token = getToken();
+  const res = await fetch(url, {
+    method: "PUT",
+    body: JSON.stringify(body),
+
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.json();
+};

@@ -30,7 +30,6 @@ export default function AddForm() {
 
     if (values.price <= 0) return toast.error("price cant' be zero or less");
 
-    console.log(values);
 
     const res: ApiResponse<TProduct> = await postData<TProductRequest>(
       APIEnums.product,

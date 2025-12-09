@@ -13,7 +13,7 @@ function Sidebar({ children, title }: TSidebar) {
   const NavItems: NavItem[] = [
     {
       title: "Inventory",
-      href: "/fe/product",
+      href: "/fe/product?page=1",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -100,6 +100,12 @@ function Sidebar({ children, title }: TSidebar) {
     },
   ];
 
+  const handleLogout = async () => {
+    localStorage.removeItem("token");
+    await handleLogout();
+    router.push("/auth");
+  };
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -130,6 +136,7 @@ function Sidebar({ children, title }: TSidebar) {
           <div className="px-4">{title}</div>
           <div className="w-full h-full flex items-center justify-end">
             <svg
+              onClick={handleLogout}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

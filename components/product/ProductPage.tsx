@@ -1,10 +1,15 @@
 import React from "react";
 import ProductTable from "./ProductTable";
+import { TProduct } from "@/services/types";
 
-function ProductPage() {
+type tyeProductPage = {
+  data: TProduct[];
+};
+
+function ProductPage({ data }: tyeProductPage) {
   return (
     <div>
-      <ProductTable></ProductTable>
+      <ProductTable data={data}></ProductTable>
     </div>
   );
 }

@@ -2,6 +2,13 @@ import jwt from "jsonwebtoken";
 import { prisma } from "./prisma";
 import { TJwtDecoded, TUser } from "./types";
 
+import { cookies } from "next/headers";
+
+export async function logout() {
+  const cookieStore = await cookies();
+  cookieStore.delete("token");
+}
+
 export const sendMail = async (user: TUser) => {
   const publicKey = process.env.MAILJET_PUBLIC_KEY;
   const privateKey = process.env.MAILJET_PRIVATE_KEY;

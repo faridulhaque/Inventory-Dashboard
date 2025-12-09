@@ -1,9 +1,12 @@
-import React from 'react'
+import { TProduct } from "@/services/types";
+import React from "react";
+type tyeProductTable = {
+  data: TProduct[];
+};
 
-function ProductTable() {
-  return (
-    <div>ProductTable</div>
-  )
+function ProductTable({ data }: tyeProductTable) {
+
+  return <div>{JSON.stringify(data)}</div>;
 }
 
-export default ProductTable
+export default ProductTable;

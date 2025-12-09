@@ -14,8 +14,6 @@ export async function POST(request: Request) {
     lowStockAt: Number(body.lowStockAt),
   };
 
-  console.log("product", product);
-
   try {
     const created = await prisma.product.create({
       data: {
@@ -96,7 +94,8 @@ export async function PUT(request: Request) {
 
 export async function GET(request: Request) {
   const user = await verifyJwt(request);
-  const { page } = await request.json();
+  const { searchParams } = new URL(request.url);
+  const page = Number(searchParams.get("page") ?? 1);
   const count = 30;
 
   try {
@@ -105,7 +104,7 @@ export async function GET(request: Request) {
         user: { id: user.id },
       },
       take: count,
-      skip: page > 1 ? (page - 1) * count : count,
+      skip: page > 1 ? (page - 1) * count : 0,
       orderBy: {
         name: "asc",
       },

@@ -9,10 +9,12 @@ import {
   TProduct,
   TSoftDelete,
 } from "@/services/types";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 function DeleteModal({ product }: { product: TProduct }) {
+  const router = useRouter();
   const [isSoftDelete, setSoftDelete] = useState(true);
   const handleDelete = async () => {
     if (isSoftDelete) {
@@ -43,6 +45,12 @@ function DeleteModal({ product }: { product: TProduct }) {
         toast.error(res.message);
       }
     }
+
+    const modal: any = document.getElementById(Modals.deleteModal);
+
+    if (modal) modal.checked = false;
+    setSoftDelete(true);
+    router.refresh();
   };
 
   return (

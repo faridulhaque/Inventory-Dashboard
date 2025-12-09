@@ -6,9 +6,12 @@ import {
   TSoftDelete,
 } from "@/services/types";
 import { verifyJwt } from "@/services/utils-server";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
+  revalidateTag("products", "max");
+
   const user = await verifyJwt(request);
 
   const body = await request.json();
@@ -44,6 +47,8 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  revalidateTag("products", "max");
+
   const user = await verifyJwt(request);
   const product = await request.json();
   try {
@@ -70,6 +75,8 @@ export async function DELETE(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  revalidateTag("products", "max");
+
   const user = await verifyJwt(request);
   const body = await request.json();
   const { id: productId, isDeleted } = body as TSoftDelete;
@@ -124,7 +131,7 @@ export async function GET(request: Request) {
       status: HttpStatus.ok,
     });
   } catch (error: any) {
-    console.log('error', error)
+    console.log("error", error);
     return NextResponse.json({
       status: error.status || HttpStatus.internalError,
       message: error.message || "Something went wrong",

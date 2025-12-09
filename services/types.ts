@@ -29,6 +29,17 @@ export type TUser = {
   isVerified: boolean;
 };
 
+export type TProduct = {
+  id: string;
+  name: string;
+  price: number;
+  sku: string;
+  quantity: number;
+  lowStockAt: number;
+};
+
+export type TProductRequest = Omit<TProduct, "id">;
+
 export enum HttpStatus {
   ok = 200,
   created = 201,
@@ -50,6 +61,7 @@ export enum APIEnums {
   register = "/api/auth/register",
   verify = "/api/auth/verify",
   login = "/api/auth/login",
+  product = "/api/product",
 }
 
 export type ApiResponse<T> = {

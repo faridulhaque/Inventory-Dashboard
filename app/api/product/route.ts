@@ -1,16 +1,28 @@
 import { prisma } from "@/services/prisma";
-import { HttpStatus } from "@/services/types";
+import { HttpStatus, TProductRequest } from "@/services/types";
 import { verifyJwt } from "@/services/utils-server";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const user = await verifyJwt(request);
-  const product = await request.json();
+
+  const body = await request.json();
+  const product = {
+    ...body,
+    quantity: Number(body.quantity),
+    price: Number(body.price),
+    lowStockAt: Number(body.lowStockAt),
+  };
+
+  console.log("product", product);
+
   try {
     const created = await prisma.product.create({
       data: {
         ...product,
-        user: user,
+        user: {
+          connect: { id: user.id },
+        },
       },
     });
     return NextResponse.json({
@@ -19,9 +31,10 @@ export async function POST(request: Request) {
       status: HttpStatus.created,
     });
   } catch (error: any) {
+    console.log("error", error);
     return NextResponse.json({
       data: null,
-      message: error.message || "Failed to create a product",
+      message: "Failed to create a product",
       status: error.status || HttpStatus.internalError,
     });
   }

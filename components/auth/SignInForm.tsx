@@ -29,7 +29,7 @@ function SignInForm({ setSignIn }: TSignInForm) {
     if (res.status === HttpStatus.ok) {
       localStorage.setItem("token", res.data.token);
       toast.success(res.message);
-      router.push("/dashboard");
+      router.push("/fe/dashboard");
     } else {
       toast.error(res.message || "Something went wrong");
     }
@@ -40,17 +40,7 @@ function SignInForm({ setSignIn }: TSignInForm) {
       onSubmit={handleSignIn}
       className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
     >
-      <h2 className="py-3 text-center text-4xl">Sign Up Now!</h2>
-      <div>
-        <label className="label">Name</label>
-        <input
-          name="name"
-          required
-          type="text"
-          className="input"
-          placeholder="Your name"
-        />
-      </div>
+      <h2 className="py-3 text-center text-4xl">Sign In Now!</h2>
 
       <div>
         <label className="label">Email</label>

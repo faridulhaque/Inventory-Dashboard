@@ -1,9 +1,12 @@
-import React from 'react'
+import AuthPage from "@/components/auth/AuthPage";
+import React from "react";
 
 function page() {
   return (
-    <div>page</div>
-  )
+    <div>
+      <AuthPage></AuthPage>
+    </div>
+  );
 }
 
-export default page
+export default page;

@@ -6,22 +6,28 @@ export async function POST(request: Request) {
   const body: TVerification = await request.json();
 
   try {
-    const updated = await prisma.user.updateMany({
-      where: {
-        email: body.email,
-        code: body.code,
-      },
-      data: {
-        isVerified: true,
-      },
+    const user = await prisma.user.findUnique({
+      where: { email: body.email },
     });
 
-    if (updated.count === 1) {
-      return NextResponse.json({
-        status: HttpStatus.ok,
-        data: null,
-        message: "You are successfully verified",
+    console.log("user code", user?.code);
+    console.log("body code", body.code);
+
+    if (user && user.code === Number(body.code)) {
+      console.log("user found and code matched");
+      const updated = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          isVerified: true,
+        },
       });
+
+      if (updated.isVerified)
+        return NextResponse.json({
+          status: HttpStatus.ok,
+          data: null,
+          message: "Email verified successfully",
+        });
     }
 
     return NextResponse.json({
@@ -32,7 +38,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     return NextResponse.json({
       status: error.status || HttpStatus.internalError,
-      message: error.message || "Something went wrong",
+      message: "Something went wrong",
     });
   }
 }

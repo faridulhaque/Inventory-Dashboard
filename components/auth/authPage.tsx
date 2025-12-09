@@ -1,10 +1,17 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import SignUpForm from "./SignUpForm";
+import SignInForm from "./SignInForm";
 
 function AuthPage() {
+  const [signIn, setSignIn] = useState(true);
   return (
     <div>
-      <SignUpForm></SignUpForm>
+      {signIn ? (
+        <SignInForm setSignIn={setSignIn}></SignInForm>
+      ) : (
+        <SignUpForm setSignIn={setSignIn}></SignUpForm>
+      )}
     </div>
   );
 }

@@ -49,6 +49,7 @@ export type NavItem = {
 export enum APIEnums {
   register = "/api/auth/register",
   verify = "/api/auth/verify",
+  login = "/api/auth/login",
 }
 
 export type ApiResponse<T> = {

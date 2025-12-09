@@ -7,15 +7,20 @@ import {
   TRegisterBody,
   TVerification,
 } from "@/services/types";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-function SignUpForm() {
+type TSignUpForm = {
+  setSignIn: (v: boolean) => void;
+};
+
+function SignUpForm({ setSignIn }: TSignUpForm) {
   const [viewPass, setViewPass] = useState(false);
   const [viewPass_2, setViewPass_2] = useState(false);
-  const [verifyFrom, setVerifyForm] = useState(false);
-  const [email, setEmail] = useState("");
+  const [verifyFrom, setVerifyForm] = useState(true);
+  const [email, setEmail] = useState("test@faridmurshed.dev");
   const [code, setCode] = useState<number | null>(null);
   const router = useRouter();
 
@@ -43,15 +48,17 @@ function SignUpForm() {
     }
   };
 
-  const handleVerification = async () => {
+  const handleVerification = async (e: any) => {
+    e.preventDefault();
     if (!code) return toast.error("Please provide the verification code");
     const res: ApiResponse<null> = await postData<TVerification>(
       APIEnums.verify,
       {
         email,
-        code,
+        code: Number(code),
       }
     );
+    console.log("res in fe", res);
 
     if (res.status === HttpStatus.ok) {
       toast.success(res.message);
@@ -210,6 +217,10 @@ function SignUpForm() {
               placeholder="Give a strong password"
               name="password_2"
             />
+          </div>
+          <div>
+            Already have an account?{" "}
+            <button onClick={() => setSignIn(true)}>Sign In here</button>
           </div>
           <button className="btn btn-primary w-full my-3">Submit</button>
         </form>

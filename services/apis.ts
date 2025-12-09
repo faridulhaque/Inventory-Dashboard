@@ -49,3 +49,14 @@ export const deleteData = async <T>(url: APIEnums, body: T) => {
   });
   return res.json();
 };
+
+export const getData = async (url: APIEnums) => {
+  const token = getToken();
+  const res = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.json();
+};

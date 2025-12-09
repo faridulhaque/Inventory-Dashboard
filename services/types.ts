@@ -24,6 +24,7 @@ export type TUser = {
   createdAt: Date;
   updatedAt: Date;
   email: string;
+  imageUrl: string;
   password: string;
   code: number;
   isVerified: boolean;
@@ -64,6 +65,7 @@ export enum APIEnums {
   product = "/api/product",
   sellProduct = "/api/product/sell",
   buyProduct = "/api/product/buy",
+  profile = "/api/user",
 }
 
 export type ApiResponse<T> = {

@@ -41,7 +41,7 @@ export async function GET(request: Request) {
 
     const products = await prisma.product.findMany({
       where: { userId: user.id },
-      select: { quantity: true, lowStockAt: true },
+      select: { quantity: true, lowStockAt: true, id: true, name: true },
       orderBy: {
         lowStockAt: "asc",
       },

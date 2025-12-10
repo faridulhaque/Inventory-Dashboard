@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 const saltRounds = 10;
 
-export async function Put(request: Request) {
+export async function PUT(request: Request) {
   try {
     const { password, email } = await request.json();
     const hashedPassword = await bcrypt.hash(password, saltRounds);

@@ -106,6 +106,12 @@ function SignInForm({ setSignIn }: TSignInForm) {
       </div>
 
       <div>
+        <button className="cursor-pointer" type="button" onClick={() => router.push("/fe/auth/password")}>
+          Forgot password?
+        </button>
+      </div>
+
+      <div>
         Don&apos;t have an account?{" "}
         <button onClick={() => setSignIn(false)}>Sign up here</button>
       </div>

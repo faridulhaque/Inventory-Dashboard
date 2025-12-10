@@ -66,6 +66,10 @@ export enum APIEnums {
   sellProduct = "/api/product/sell",
   buyProduct = "/api/product/buy",
   profile = "/api/user",
+  forgetPassword = "/api/password/forgot",
+  verifyCodeForPassword = "/api/password/verify",
+  updatePassword = "/api/password/update",
+  dashboard = "/api/dashboard",
 }
 
 export type ApiResponse<T> = {
@@ -103,4 +107,22 @@ export type TBought = {
 };
 export type THardDelete = {
   id: string;
+};
+
+export type DashboardData = {
+  productsCount: number;
+  totalUnits: number;
+  totalSoldUnits: number;
+  totalEarning: number;
+  lowStockPercentage: number;
+  dailySales: {
+    date: string;
+    units: number;
+  }[];
+  products: {
+    quantity: number;
+    id: string;
+    name: string;
+    lowStockAt: number;
+  }[];
 };

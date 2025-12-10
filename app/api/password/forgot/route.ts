@@ -29,9 +29,8 @@ export async function POST(request: Request) {
         code: code,
       },
     });
-    // const ok = await sendMail(updated);
-    console.log("updated", updated.code);
-    const ok = true;
+    const ok = await sendMail(updated);
+    // const ok = true;
     if (ok)
       return NextResponse.json({
         status: ok ? HttpStatus.ok : HttpStatus.notFound,

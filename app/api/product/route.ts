@@ -1,8 +1,7 @@
 import { prisma } from "@/services/prisma";
 import {
   HttpStatus,
-  TPayloadUpdate,
-  TProductRequest,
+
   TSoftDelete,
 } from "@/services/types";
 import { verifyJwt } from "@/services/utils-server";
@@ -37,7 +36,6 @@ export async function POST(request: Request) {
       status: HttpStatus.created,
     });
   } catch (error: any) {
-    console.log("error", error);
     return NextResponse.json({
       data: null,
       message: "Failed to create a product",
@@ -131,7 +129,6 @@ export async function GET(request: Request) {
       status: HttpStatus.ok,
     });
   } catch (error: any) {
-    console.log("error", error);
     return NextResponse.json({
       status: error.status || HttpStatus.internalError,
       message: error.message || "Something went wrong",

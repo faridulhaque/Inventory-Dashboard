@@ -10,11 +10,9 @@ export async function POST(request: Request) {
       where: { email: body.email },
     });
 
-    console.log("user code", user?.code);
-    console.log("body code", body.code);
+
 
     if (user && user.code === Number(body.code)) {
-      console.log("user found and code matched");
       const updated = await prisma.user.update({
         where: { id: user.id },
         data: {

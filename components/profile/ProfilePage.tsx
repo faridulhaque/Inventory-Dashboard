@@ -5,17 +5,21 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { uploadImage } from "@/services/util-client";
+import Loading from "../others/Loading";
 
 function ProfilePage() {
   const [editName, setEditName] = useState(false);
   const [userName, setUserName] = useState("");
   const [user, setUser] = useState<TUser | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getProfile = async () => {
+      setLoading(true);
       const res: ApiResponse<TUser> = await getData(APIEnums.profile);
       if (res.status === HttpStatus.ok) {
         setUser(res.data);
+        setLoading(false);
       }
     };
     getProfile();
@@ -38,6 +42,8 @@ function ProfilePage() {
     setEditName(false);
   };
 
+  if (loading) return <Loading></Loading>;
+
   return (
     <div className="flex flex-col items-center space-y-6 pt-20">
       <div className="avatar relative">
@@ -54,11 +60,13 @@ function ProfilePage() {
                 toast.error("Only JPG or PNG allowed");
                 return;
               }
+              setLoading(true);
 
               const url = await uploadImage(file);
               await putData(APIEnums.profile, { imageUrl: url });
               toast.success("Profile picture updated");
               setUser((prev) => (prev ? { ...prev, imageUrl: url } : prev));
+              setLoading(false);
             }}
             id="pro_pic"
             type="file"

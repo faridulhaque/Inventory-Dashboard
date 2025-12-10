@@ -122,7 +122,6 @@ function Sidebar({ children, title }: TSidebar) {
 
     const checkValidation = async () => {
       const res: ApiResponse<TUser> = await getData(APIEnums.profile);
-      console.log("res", res);
       if (res.status !== HttpStatus.ok) {
         router.push("/fe/auth");
       } else {

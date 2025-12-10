@@ -9,8 +9,6 @@ export const uploadImage = async (file: File) => {
   fd.append("image", file);
   fd.append("name", file.name);
 
-  console.log("env", process.env.NEXT_PUBLIC_IMGBB_API_KEY);
-
   const res = await fetch(
     `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
     {
@@ -20,8 +18,6 @@ export const uploadImage = async (file: File) => {
   );
 
   const data = await res.json();
-
-  console.log("data imgbb", data);
 
   if (!data.success) {
     console.error("Upload error:", data);

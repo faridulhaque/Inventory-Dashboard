@@ -10,12 +10,14 @@ export default async function Page({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) {
-  const page = Number(searchParams.page ?? 1);
+  const params = await searchParams;
+  const page = Number(params.page ?? 1);
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
   const res = await fetch(`${process.env.BASE_URL}/product?page=${page}`, {
+    cache: "no-store",
     next: { tags: ["products"] },
     headers: { Authorization: `Bearer ${token}` },
   });

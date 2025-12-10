@@ -1,7 +1,11 @@
 import React from "react";
 
 function Loading() {
-  return <span className="loading loading-spinner text-primary"></span>;
+  return (
+    <div className="h-20 flex items-center justify-center">
+      <span className="loading loading-spinner text-primary"></span>;
+    </div>
+  );
 }
 
 export default Loading;

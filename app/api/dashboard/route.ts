@@ -1,5 +1,5 @@
 import { prisma } from "@/services/prisma";
-import { HttpStatus } from "@/services/types";
+import { HttpStatus, TProduct } from "@/services/types";
 import { verifyJwt } from "@/services/utils-server";
 import { NextResponse } from "next/server";
 
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
       },
     });
 
-    const totalEarning = soldItems.reduce((sum, item) => {
+    const totalEarning = soldItems.reduce((sum: number, item: any) => {
       return sum + item.quantity * Number(item.product?.price || 0);
     }, 0);
 
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
     });
 
     const lowStock = products.filter(
-      (p) => p.lowStockAt !== null && p.quantity < p.lowStockAt
+      (p: any) => p.lowStockAt !== null && p.quantity < p.lowStockAt
     ).length;
 
     const lowStockPercentage =

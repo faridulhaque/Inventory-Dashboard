@@ -1,10 +1,10 @@
-import AuthPage from "@/components/auth/AuthPage";
+import AuthenticationPage from "@/components/auth/AuthenticationPage";
 import React from "react";
 
 function page() {
   return (
     <div>
-      <AuthPage></AuthPage>
+      <AuthenticationPage></AuthenticationPage>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
 
-function AuthPage() {
+function AuthenticationPage() {
   const [signIn, setSignIn] = useState(true);
   return (
     <div className="h-screen w-full bg-base-100 flex items-center justify-center p-4">
@@ -20,4 +20,4 @@ function AuthPage() {
   );
 }
 
-export default AuthPage;
+export default AuthenticationPage;

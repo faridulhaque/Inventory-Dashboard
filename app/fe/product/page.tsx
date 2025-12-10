@@ -1,28 +1,23 @@
 import Loading from "@/components/others/Loading";
 import Sidebar from "@/components/others/Sidebar";
 import ProductPage from "@/components/product/ProductPage";
-import { ApiResponse, TProduct, TRegisterBody } from "@/services/types";
+import { ApiResponse, TProduct } from "@/services/types";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<any>;
+  searchParams: Record<string, string | string[] | undefined>;
 }) {
-  const params = await searchParams;
-  const page = Number(params.page ?? 1);
+  const page = Number(searchParams.page ?? 1);
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
   const res = await fetch(`${process.env.BASE_URL}/product?page=${page}`, {
-    next: {
-      tags: ["products"],
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    next: { tags: ["products"] },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   if (!res.ok)
@@ -35,12 +30,10 @@ export default async function Page({
   const data: ApiResponse<TProduct[]> = await res.json();
 
   return (
-    <div>
-      <Sidebar title="Product">
-        <Suspense fallback={<Loading></Loading>}>
-          <ProductPage data={data?.data} page={page}></ProductPage>
-        </Suspense>
-      </Sidebar>
-    </div>
+    <Sidebar title="Product">
+      <Suspense fallback={<Loading />}>
+        <ProductPage data={data.data} page={page} />
+      </Suspense>
+    </Sidebar>
   );
 }

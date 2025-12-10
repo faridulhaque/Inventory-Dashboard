@@ -46,8 +46,8 @@ export async function POST(req: Request) {
           },
         });
 
-    // const ok = await sendMail(saved);
-    const ok = true;
+    const ok = await sendMail(saved);
+    // const ok = true;
     // console.log("ok", ok);
 
     return NextResponse.json({

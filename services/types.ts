@@ -70,6 +70,7 @@ export enum APIEnums {
   verifyCodeForPassword = "/api/password/verify",
   updatePassword = "/api/password/update",
   dashboard = "/api/dashboard",
+  logout = "/api/auth/logout",
 }
 
 export type ApiResponse<T> = {

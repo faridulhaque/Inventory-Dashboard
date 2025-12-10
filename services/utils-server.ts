@@ -4,7 +4,7 @@ import { TJwtDecoded, TUser } from "./types";
 
 import { cookies } from "next/headers";
 
-export async function logout() {
+export async function removeTokenFromCookie() {
   const cookieStore = await cookies();
   cookieStore.delete("token");
 }

@@ -19,7 +19,7 @@ type TSignUpForm = {
 function SignUpForm({ setSignIn }: TSignUpForm) {
   const [viewPass, setViewPass] = useState(false);
   const [viewPass_2, setViewPass_2] = useState(false);
-  const [verifyFrom, setVerifyForm] = useState(true);
+  const [verifyFrom, setVerifyForm] = useState(false);
   const [email, setEmail] = useState("test@faridmurshed.dev");
   const [code, setCode] = useState<number | null>(null);
   const router = useRouter();
@@ -58,11 +58,11 @@ function SignUpForm({ setSignIn }: TSignUpForm) {
         code: Number(code),
       }
     );
-    console.log("res in fe", res);
 
     if (res.status === HttpStatus.ok) {
       toast.success(res.message);
-      router.push("/fe/auth");
+      setSignIn(true);
+      setVerifyForm(false);
     } else {
       toast.error(res.message || "Something went wrong");
     }

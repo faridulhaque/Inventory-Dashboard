@@ -1,7 +1,14 @@
 "use client";
-import { NavItem } from "@/services/types";
+import { getData, putData } from "@/services/apis";
+import {
+  APIEnums,
+  ApiResponse,
+  HttpStatus,
+  NavItem,
+  TUser,
+} from "@/services/types";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 type TSidebar = {
   children: React.ReactNode;
@@ -11,26 +18,6 @@ type TSidebar = {
 function Sidebar({ children, title }: TSidebar) {
   const router = useRouter();
   const NavItems: NavItem[] = [
-    {
-      title: "Inventory",
-      href: "/fe/product?page=1",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="my-1.5 inline-block size-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
-          />
-        </svg>
-      ),
-    },
     {
       title: "Statistic",
       href: "/fe/dashboard",
@@ -51,6 +38,27 @@ function Sidebar({ children, title }: TSidebar) {
         </svg>
       ),
     },
+    {
+      title: "Inventory",
+      href: "/fe/product?page=1",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="my-1.5 inline-block size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+          />
+        </svg>
+      ),
+    },
+
     {
       title: "Add Item",
       href: "/fe/add",
@@ -102,9 +110,26 @@ function Sidebar({ children, title }: TSidebar) {
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
-    await handleLogout();
-    router.push("/auth");
+    await putData<null>(APIEnums.logout, null);
+    router.push("/fe/auth");
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token") || "";
+
+    const checkValidation = async () => {
+      const res: ApiResponse<TUser> = await getData(APIEnums.profile);
+      console.log("res", res);
+      if (res.status !== HttpStatus.ok) {
+        router.push("/fe/auth");
+      }
+    };
+    if (token) {
+      checkValidation();
+    } else {
+      router.push("/fe/auth");
+    }
+  }, []);
 
   return (
     <div className="drawer lg:drawer-open">

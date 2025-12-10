@@ -9,8 +9,8 @@ type tyeProductPage = {
 
 function ProductPage({ data, page }: tyeProductPage) {
   return (
-    <div>
-      <ProductTable data={data} page={page}></ProductTable>
+    <div className="w-full bg-base-200 rounded-xl p-4 shadow overflow-x-auto">
+      <ProductTable data={data} page={page} />
     </div>
   );
 }

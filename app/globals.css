@@ -1,3 +1,39 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
 @plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "myDashboard";
+  default: false;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* Base background colors */
+  --color-base-100: #ffffff;
+  --color-base-200: #f1f5f9; /* slightly cool white */
+  --color-base-300: #e2e8f0;
+  --color-base-content: #1f2937;
+
+  /* Primary – bright green */
+  --color-primary: #22c55e; /* Bright modern green */
+  --color-primary-content: #ffffff;
+
+  /* Secondary – mint accent */
+  --color-secondary: #2dd4bf; /* mint/teal */
+  --color-secondary-content: #ffffff;
+
+  /* Accent – citrus highlight */
+  --color-accent: #fbbf24; /* amber highlight */
+  --color-accent-content: #1f2937;
+
+  /* Neutral / text */
+  --color-neutral: #1f2937;
+  --color-neutral-content: #ffffff;
+
+  /* Status colors (kept clean & bright) */
+  --color-info: #0ea5e9;
+  --color-success: #16a34a; /* richer green */
+  --color-warning: #fbbf24;
+  --color-error: #ef4444;
+}

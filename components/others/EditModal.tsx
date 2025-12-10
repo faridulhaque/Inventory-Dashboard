@@ -63,14 +63,18 @@ function EditModal({ product }: { product: TProduct }) {
 
   return (
     <>
-      {/* The button to open modal */}
-
-      {/* Put this part before </body> tag */}
       <input type="checkbox" id={Modals.editModal} className="modal-toggle" />
+
       <div className="modal" role="dialog">
-        <div className="modal-box">
-          {/* name of each tab group should be unique */}
-          <div className="tabs tabs-box">
+        <div className="modal-box bg-base-200 rounded-xl relative space-y-6">
+          <label
+            htmlFor={Modals.editModal}
+            className="btn btn-sm btn-circle absolute right-4 top-4 bg-error text-white hover:bg-error/80"
+          >
+            ✕
+          </label>
+
+          <div className="tabs tabs-boxed w-full">
             <input
               onClick={() => {
                 setSold(true);
@@ -78,11 +82,12 @@ function EditModal({ product }: { product: TProduct }) {
                 setSoldQuantity("");
               }}
               type="radio"
-              name="my_tabs_1"
+              name="edit_tabs"
               className="tab"
               aria-label="Sold"
               defaultChecked
             />
+
             <input
               onClick={() => {
                 setSold(false);
@@ -90,50 +95,55 @@ function EditModal({ product }: { product: TProduct }) {
                 setSoldQuantity("");
               }}
               type="radio"
-              name="my_tabs_1"
+              name="edit_tabs"
               className="tab"
               aria-label="Bought"
             />
           </div>
 
-          <div>
-            {sold ? (
-              <div>
-                <span> {product?.quantity} - </span>
-                <input
-                  onChange={(e) => setSoldQuantity(e.target.value)}
-                  type="text"
-                  placeholder="Type here"
-                  className="input"
-                  value={soldQuantity}
-                />
-                <button onClick={handleSubmit} className="btn btn-success">
-                  Sell
-                </button>
-              </div>
-            ) : (
-              <div>
-                <span> {product?.quantity} + </span>
-                <input
-                  onChange={(e) => setBoughQuantity(e.target.value)}
-                  type="text"
-                  placeholder="Type here"
-                  className="input"
-                  value={boughtQuantity}
+          {sold ? (
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-semibold text-base-content">
+                {product?.quantity} -
+              </span>
 
-                />
-                <button onClick={handleSubmit} className="btn btn-error">
-                  Buy
-                </button>
-              </div>
-            )}
-          </div>
+              <input
+                onChange={(e) => setSoldQuantity(e.target.value)}
+                type="text"
+                placeholder="Qty"
+                className="input input-bordered w-full"
+                value={soldQuantity}
+              />
 
-          <div className="modal-action">
-            <label htmlFor={Modals.editModal} className="btn">
-              Close!
-            </label>
-          </div>
+              <button
+                onClick={handleSubmit}
+                className="btn bg-success text-white hover:bg-success/80"
+              >
+                Sell
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-semibold text-base-content">
+                {product?.quantity} +
+              </span>
+
+              <input
+                onChange={(e) => setBoughQuantity(e.target.value)}
+                type="text"
+                placeholder="Qty"
+                className="input input-bordered w-full"
+                value={boughtQuantity}
+              />
+
+              <button
+                onClick={handleSubmit}
+                className="btn bg-error text-white hover:bg-error/80"
+              >
+                Buy
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

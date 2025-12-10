@@ -30,7 +30,6 @@ export default function AddForm() {
 
     if (values.price <= 0) return toast.error("price cant' be zero or less");
 
-
     const res: ApiResponse<TProduct> = await postData<TProductRequest>(
       APIEnums.product,
       values
@@ -44,65 +43,66 @@ export default function AddForm() {
   return (
     <form
       onSubmit={handleAddProduct}
-      className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
+      className="fieldset bg-base-200 border-base-300 rounded-box border p-6 space-y-4 mx-auto w-full max-w-sm flex flex-col items-center"
     >
-      <h2 className="py-3 text-center text-4xl">Add a product!</h2>
-      <div>
+      <h2 className="text-center text-3xl font-semibold mb-4">Add a Product</h2>
+
+      <div className="w-full flex flex-col space-y-1">
         <label className="label">Product Name</label>
         <input
           name="name"
           required
           type="text"
-          className="input"
-          placeholder="Product's name"
+          className="input input-bordered w-full"
+          placeholder="Product name"
         />
       </div>
 
-      <div>
+      <div className="w-full flex flex-col space-y-1">
         <label className="label">Price</label>
         <input
           required
           type="number"
-          className="input"
-          placeholder="Product's price"
+          className="input input-bordered w-full"
+          placeholder="Product price"
           name="price"
         />
       </div>
 
-      <div className="relative">
+      <div className="w-full flex flex-col space-y-1">
         <label className="label">Sku</label>
         <input
           required
-          type={"text"}
-          className="input"
-          placeholder="Product's sku number"
+          type="text"
+          className="input input-bordered w-full"
+          placeholder="SKU number"
           name="sku"
         />
       </div>
 
-      <div className="relative">
+      <div className="w-full flex flex-col space-y-1">
         <label className="label">Quantity</label>
         <input
           required
-          type={"number"}
-          className="input"
-          placeholder="Product's quantity"
+          type="number"
+          className="input input-bordered w-full"
+          placeholder="Quantity"
           name="quantity"
         />
       </div>
 
-      <div className="relative">
-        <label className="label">Low stock at</label>
+      <div className="w-full flex flex-col space-y-1">
+        <label className="label">Low Stock At</label>
         <input
           required
-          type={"number"}
-          className="input"
-          placeholder="When stock is low"
+          type="number"
+          className="input input-bordered w-full"
+          placeholder="Stock alert level"
           name="lowStockAt"
         />
       </div>
 
-      <button className="btn btn-primary w-full my-3">Submit</button>
+      <button className="btn btn-primary w-full mt-2">Submit</button>
     </form>
   );
 }

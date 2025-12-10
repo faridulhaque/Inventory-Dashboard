@@ -8,7 +8,8 @@ import {
   TUser,
 } from "@/services/types";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Loading from "./Loading";
 
 type TSidebar = {
   children: React.ReactNode;
@@ -17,6 +18,8 @@ type TSidebar = {
 
 function Sidebar({ children, title }: TSidebar) {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
   const NavItems: NavItem[] = [
     {
       title: "Statistic",
@@ -122,6 +125,8 @@ function Sidebar({ children, title }: TSidebar) {
       console.log("res", res);
       if (res.status !== HttpStatus.ok) {
         router.push("/fe/auth");
+      } else {
+        setLoading(false);
       }
     };
     if (token) {
@@ -131,82 +136,85 @@ function Sidebar({ children, title }: TSidebar) {
     }
   }, []);
 
+  if (loading) return <Loading></Loading>;
+
   return (
     <div className="drawer lg:drawer-open">
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
-        {/* Navbar */}
-        <nav className="navbar w-full bg-base-300">
-          <label
-            htmlFor="my-drawer-4"
-            aria-label="open sidebar"
-            className="btn btn-square btn-ghost"
-          >
-            {/* Sidebar toggle icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-              className="my-1.5 inline-block size-4"
-            >
-              <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-              <path d="M9 4v16"></path>
-              <path d="M14 10l2 2l-2 2"></path>
-            </svg>
-          </label>
-          <div className="px-4">{title}</div>
-          <div className="w-full h-full flex items-center justify-end">
-            <svg
-              onClick={handleLogout}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6 mr-5 cursor-pointer"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
-              />
-            </svg>
-          </div>
-        </nav>
-        {/* Page content here */}
-        <div className="p-4">{children}</div>
-      </div>
+  <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
-      <div className="drawer-side is-drawer-close:overflow-visible">
-        <label
-          htmlFor="my-drawer-4"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
-          <div className="h-16 w-full"></div>
-          <ul className="menu w-full grow">
-            {/* List item */}
-            {NavItems.map((ni) => (
-              <li key={ni.title}>
-                <button
-                  onClick={() => router.push(ni.href)}
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip={ni.title}
-                >
-                  {ni.icon}
-                  <span className="is-drawer-close:hidden">{ni.title}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+  <div className="drawer-content flex flex-col min-h-screen">
+    <nav className="navbar w-full bg-base-200 border-b border-base-300 shadow-sm px-4">
+      <label
+        htmlFor="my-drawer-4"
+        aria-label="open sidebar"
+        className="btn btn-square btn-ghost lg:hidden"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          fill="none"
+          stroke="currentColor"
+          className="size-5"
+        >
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </label>
+
+      <div className="px-4 font-semibold text-lg">{title}</div>
+
+      <div className="w-full flex items-center justify-end pr-4">
+        <svg
+          onClick={handleLogout}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6 cursor-pointer hover:text-primary transition"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+          />
+        </svg>
       </div>
+    </nav>
+
+    <div className="p-4">{children}</div>
+  </div>
+
+  <div className="drawer-side is-drawer-close:overflow-visible">
+    <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
+
+    <div className="flex min-h-full flex-col bg-base-200/70 backdrop-blur-md border-r border-base-300 shadow-lg shadow-base-300/50 is-drawer-close:w-14 is-drawer-open:w-64 transition-all duration-300">
+      <div className="h-16 w-full"></div>
+
+      <ul className="menu w-full grow px-2 py-4 space-y-1">
+        {NavItems.map((ni) => (
+          <li key={ni.title} className="w-full">
+            <button
+              onClick={() => router.push(ni.href)}
+              className={`
+                flex items-center gap-3 w-full px-3 py-3 rounded-lg transition-all
+                hover:bg-primary/10 hover:text-primary
+                is-drawer-close:tooltip is-drawer-close:tooltip-right
+              `}
+              data-tip={ni.title}
+            >
+              {ni.icon}
+              <span className="is-drawer-close:hidden">{ni.title}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
+  </div>
+</div>
+
   );
 }
 

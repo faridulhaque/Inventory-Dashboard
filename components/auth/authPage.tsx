@@ -6,12 +6,16 @@ import SignInForm from "./SignInForm";
 function AuthPage() {
   const [signIn, setSignIn] = useState(true);
   return (
-    <div>
-      {signIn ? (
-        <SignInForm setSignIn={setSignIn}></SignInForm>
-      ) : (
-        <SignUpForm setSignIn={setSignIn}></SignUpForm>
-      )}
+    <div className="h-screen w-full bg-base-100 flex items-center justify-center p-4">
+      <div className="relative w-full max-w-sm">
+        <div className="backdrop-blur-md bg-base-200/70 border border-base-300 rounded-2xl p-6 shadow-xl animate-fadeIn">
+          {signIn ? (
+            <SignInForm setSignIn={setSignIn} />
+          ) : (
+            <SignUpForm setSignIn={setSignIn} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

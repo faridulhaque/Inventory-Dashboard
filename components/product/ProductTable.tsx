@@ -13,11 +13,10 @@ function ProductTable({ data, page }: tyeProductTable) {
   const router = useRouter();
   const [product, setProduct] = useState<null | TProduct>(null);
   return (
-    <div className="overflow-x-auto">
-      <table className="table">
-        {/* head */}
+    <div className="w-full bg-base-200 rounded-xl p-4 shadow overflow-x-auto">
+      <table className="table table-zebra w-full">
         <thead>
-          <tr>
+          <tr className="text-base-content font-semibold bg-base-300">
             <th>Name</th>
             <th>Sku</th>
             <th>Price (per unit)</th>
@@ -26,18 +25,23 @@ function ProductTable({ data, page }: tyeProductTable) {
             <th>Action</th>
           </tr>
         </thead>
+
         <tbody>
-          {/* row 1 */}
           {data?.map((d) => (
             <tr
               key={d?.id}
-              className={`${d?.quantity < d.lowStockAt ? "text-red-500" : ""}`}
+              className={`${
+                d?.quantity < d.lowStockAt
+                  ? "bg-error/30 text-error-content font-semibold"
+                  : ""
+              }`}
             >
-              <th>{d?.name}</th>
+              <td>{d?.name}</td>
               <td>{d?.sku}</td>
-              <td>{d.price}</td>
+              <td className="text-primary font-semibold">{d.price}</td>
               <td>{d.quantity}</td>
               <td>{d.lowStockAt}</td>
+
               <td className="flex space-x-2">
                 <label
                   onClick={() => setProduct(d)}
@@ -84,29 +88,35 @@ function ProductTable({ data, page }: tyeProductTable) {
           ))}
         </tbody>
       </table>
-      <div className="flex justify-end">
-        <div className="join py-5">
+
+      <div className="flex justify-end mt-4">
+        <div className="join">
           <button
             disabled={page === 1}
             onClick={() => router.push(`/fe/product?page=${page - 1}`)}
-            className="join-item btn"
+            className="join-item btn btn-primary"
           >
             «
           </button>
-          <button className="join-item btn">Page {page}</button>
+
+          <button className="join-item btn bg-base-300 border-base-300">
+            Page {page}
+          </button>
+
           <button
             disabled={data?.length === 0}
             onClick={() => router.push(`/fe/product?page=${page + 1}`)}
-            className="join-item btn"
+            className="join-item btn btn-primary"
           >
             »
           </button>
         </div>
       </div>
+
       {product && (
         <>
-          <EditModal product={product}></EditModal>
-          <DeleteModal product={product}></DeleteModal>
+          <EditModal product={product} />
+          <DeleteModal product={product} />
         </>
       )}
     </div>

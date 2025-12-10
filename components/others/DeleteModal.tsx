@@ -55,29 +55,38 @@ function DeleteModal({ product }: { product: TProduct }) {
 
   return (
     <>
-      {/* The button to open modal */}
-
-      {/* Put this part before </body> tag */}
       <input type="checkbox" id={Modals.deleteModal} className="modal-toggle" />
+
       <div className="modal" role="dialog">
-        <div className="modal-box">
-          <h2>Are you sure?</h2>
-          <input
-            onChange={() => setSoftDelete(!isSoftDelete)}
-            type="checkbox"
-            defaultChecked={false}
-            className="toggle btn-accent"
-          />
-          <span>Remove all data including statistics</span>
-          <div>
-            <button onClick={handleDelete} className="btn btn-primary">
+        <div className="modal-box bg-base-200 rounded-xl relative space-y-6">
+          <label
+            htmlFor={Modals.deleteModal}
+            className="btn btn-sm btn-circle absolute right-4 top-4 bg-error text-white hover:bg-error/80"
+          >
+            ✕
+          </label>
+
+          <h2 className="text-xl font-semibold text-center">Are you sure?</h2>
+
+          <div className="flex items-center gap-3">
+            <input
+              onChange={() => setSoftDelete(!isSoftDelete)}
+              type="checkbox"
+              defaultChecked={false}
+              className="toggle toggle-accent"
+            />
+            <span className="text-base-content">
+              Remove all data including statistics
+            </span>
+          </div>
+
+          <div className="w-full flex justify-center pt-2">
+            <button
+              onClick={handleDelete}
+              className="btn bg-error text-white hover:bg-error/80 w-full"
+            >
               Delete
             </button>
-          </div>
-          <div className="modal-action">
-            <label htmlFor={Modals.deleteModal} className="btn">
-              Close!
-            </label>
           </div>
         </div>
       </div>

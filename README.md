@@ -25,15 +25,12 @@
 
 ## 🧰 Tech Stack
 
-### Frontend
+### Frontend & Backend
 - Next.js
 - TypeScript
 - Tailwind CSS
 - Daisy UI
 - Rechart
-
-### Backend
-- NextJS
 - Prisma ORM
 - NeonDB
 

@@ -25,7 +25,7 @@ export default async function Page({
   if (!res.ok)
     return (
       <h2 className="text-red-500 text-center text-4xl py-10">
-        Failed to load data
+        Failed to load data. 
       </h2>
     );
 

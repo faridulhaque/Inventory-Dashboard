@@ -30,7 +30,8 @@ function SignInForm({ setSignIn }: TSignInForm) {
       localStorage.setItem("token", res.data.token);
       document.cookie = `token=${encodeURIComponent(
         res.data.token
-      )}; path=/; max-age=604800`;
+      )}; path=/; max-age=31536000`;
+
       toast.success(res.message);
       router.push("/fe/dashboard");
     } else {

@@ -28,7 +28,9 @@ function SignInForm({ setSignIn }: TSignInForm) {
 
     if (res.status === HttpStatus.ok) {
       localStorage.setItem("token", res.data.token);
-      document.cookie = `token=${res.data.token}; path=/;`;
+      document.cookie = `token=${encodeURIComponent(
+        res.data.token
+      )}; path=/; max-age=604800`;
       toast.success(res.message);
       router.push("/fe/dashboard");
     } else {

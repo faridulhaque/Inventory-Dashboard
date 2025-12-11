@@ -12,9 +12,9 @@ export default async function Page({
 }) {
   const params = await searchParams;
   const page = Number(params.page ?? 1);
-
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const rawToken = cookieStore.get("token")?.value;
+  const token = rawToken ? decodeURIComponent(rawToken) : "";
 
   const res = await fetch(`${process.env.BASE_URL}/product?page=${page}`, {
     cache: "no-store",

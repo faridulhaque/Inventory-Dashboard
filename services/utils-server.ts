@@ -26,7 +26,7 @@ export const sendMail = async (user: TUser) => {
         {
           From: { Email: senderEmail, Name: "Inventory Dashboard Support" },
           To: [{ Email: user.email, Name: user.name || "User" }],
-          Subject: "Your password reset code",
+          Subject: "Your verification code",
           TextPart: `Your verification code is ${user.code}`,
           HTMLPart: `<h3>Hello ${user.name || "User"},</h3>
                        <p>Your code is <b>${user.code}</b>.</p>

@@ -12,9 +12,10 @@ export async function GET(request: Request) {
     });
 
     const totalUnitsAgg = await prisma.product.aggregate({
-      where: { userId: user.id },
+      where: { userId: user.id, isDeleted: false },
       _sum: { quantity: true },
     });
+    
     const totalUnits = totalUnitsAgg._sum.quantity || 0;
 
     const soldUnitsAgg = await prisma.soldProduct.aggregate({

@@ -21,13 +21,16 @@ import Loading from "../others/Loading";
 
 function DashboardPage() {
   const [dbData, setDBData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getDashboardData = async () => {
+      setLoading(true);
       const res: ApiResponse<DashboardData> = await getData(APIEnums.dashboard);
       if (res.status === HttpStatus.ok) {
         setDBData(res.data);
       }
+      setLoading(false);
     };
     getDashboardData();
   }, []);
@@ -53,12 +56,13 @@ function DashboardPage() {
     { name: "In Stock", value: 100 - low },
   ];
 
+  if (loading) return <Loading></Loading>;
+
   return (
     <Suspense fallback={<Loading />}>
       <div className="h-auto lg:h-[calc(100vh-100px)] w-full grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
         <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 place-items-center bg-base-200 rounded-xl p-4 shadow">
           <div className="flex flex-col items-center justify-center gap-1 p-4 rounded-lg bg-base-100 w-full shadow-sm">
-           
             <span className="font-medium text-base-content">Product</span>
             <span className="text-xl font-bold text-primary">
               {dbData?.productsCount}
@@ -66,7 +70,6 @@ function DashboardPage() {
           </div>
 
           <div className="flex flex-col items-center justify-center gap-1 p-4 rounded-lg bg-base-100 w-full shadow-sm">
-          
             <span className="font-medium text-base-content">Units</span>
             <span className="text-xl font-bold text-success">
               {dbData?.totalUnits}
@@ -74,7 +77,6 @@ function DashboardPage() {
           </div>
 
           <div className="flex flex-col items-center justify-center gap-1 p-4 rounded-lg bg-base-100 w-full shadow-sm">
-            
             <span className="font-medium text-base-content">Sold</span>
             <span className="text-xl font-bold text-warning">
               {dbData?.totalSoldUnits}
@@ -82,7 +84,6 @@ function DashboardPage() {
           </div>
 
           <div className="flex flex-col items-center justify-center gap-1 p-4 rounded-lg bg-base-100 w-full shadow-sm">
-           
             <span className="font-medium text-base-content">Earnings</span>
             <span className="text-xl font-bold text-accent">
               {dbData?.totalEarning}

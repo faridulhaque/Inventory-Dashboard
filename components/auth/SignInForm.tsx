@@ -131,7 +131,7 @@ function SignInForm({ setSignIn }: TSignInForm) {
         Do not have an account?{" "}
         <button
           onClick={() => setSignIn(false)}
-          className="text-primary hover:underline"
+          className="text-primary hover:underline cursor-pointer"
         >
           Sign up here
         </button>

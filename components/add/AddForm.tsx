@@ -7,10 +7,12 @@ import {
   TProduct,
   TProductRequest,
 } from "@/services/types";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import Loading from "../others/Loading";
 
 export default function AddForm() {
+  const [adding, setAdding] = useState(false);
   const handleAddProduct = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -29,6 +31,7 @@ export default function AddForm() {
     }
 
     if (values.price <= 0) return toast.error("price cant' be zero or less");
+    setAdding(true);
 
     const res: ApiResponse<TProduct> = await postData<TProductRequest>(
       APIEnums.product,
@@ -38,7 +41,9 @@ export default function AddForm() {
     if (res.status === HttpStatus.created) {
       toast.success(res.message);
       (e as any).target.reset();
-    } else return toast.error(res.message);
+    } else toast.error(res.message);
+
+    setAdding(false);
   };
   return (
     <form
@@ -102,7 +107,13 @@ export default function AddForm() {
         />
       </div>
 
-      <button className="btn btn-primary w-full mt-2">Submit</button>
+      {adding ? (
+        <Loading></Loading>
+      ) : (
+        <button disabled={adding} className="btn btn-primary w-full mt-2">
+          Submit
+        </button>
+      )}
     </form>
   );
 }
